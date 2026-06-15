@@ -1,0 +1,533 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "BOM-SW 1.0",
+    "type": "object",
+    "properties": {
+        "documentBasicInfo": {
+            "type": "object",
+            "properties": {
+                "documentName": {
+                    "type": "string",
+                    "description": "由创建者指定此 SBOM 文档的名称"
+                },
+                "documentVersion": {
+                    "description": "文档版本由主要版本字段、 次要版本字段和修订版本字段组成 。 ",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "description": "首次创建 SBOM 文档及每次更新时，均应记录时间戳。时间戳应符合 GB/T 7408.1-2023 。 ",
+                    "type": "string"
+                },
+                "sbomFormat": {
+                    "description": "SBOM 文档应明确使用的数据格式，包括格式名称、版本号及相应的格式标准或规范 URL",
+                    "type": "string"
+                },
+                "toolInfo": {
+                    "description": "生成 SBOM 文档的工具信息，包括工具名称和工具版本等",
+                    "type": "string"
+                },
+                "sbomAuthor": {
+                    "name": "生成 SBOM 的作者",
+                    "type": "string"
+                },
+                "sbomAuthorComments": {
+                    "name": "创建者备注",
+                    "type": "string"
+                },
+                "sbomComments": {
+                    "name": "文档备注",
+                    "type": "string"
+                },
+                "sbomType": {
+                    "description": "SBOM 的生成方式类型",
+                    "type": "string",
+                    "enum": [
+                        "analyzed",
+                        "build"
+                    ]
+                }
+            },
+            "required": [
+                "documentName",
+                "documentVersion",
+                "timestamp",
+                "sbomFormat",
+                "tool"
+            ],
+            "additionalProperties": false
+        },
+        "softwareCompositionInfo": {
+            "type": "object",
+            "properties": {
+                "components": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "componentAuthor": {
+                                "type": "dict",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "软件组件的创作者或主要贡献者名称"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "软件组件的创作者或主要贡献者电子邮箱"
+                                    },
+                                    "organization": {
+                                        "type": "string",
+                                        "description": "软件组件的创作者或主要贡献者所在组织"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "description": "软件组件的创作者或主要贡献者的角色或贡献"
+                                    }
+                                },
+                                "required": [
+                                    "         "
+name
+                                ],
+                                "additionalProperties": false
+                            },
+                            "componentProvider": {
+                                "type": "object",
+                                "properties": {
+                                    "fullName": {
+                                        "type": "string",
+                                        "description": "软件组件的供应商全称"
+                                    },
+                                    "shortName": {
+                                        "type": "string",
+                                        "description": "软件组件的供应商简称或缩写"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "description": "软件组件的供应商网站"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "软件组件的供应商电子邮箱"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "description": "软件组件的供应商简介"
+                                    }
+                                },
+                                "required": [
+                                    "         "
+name
+                                ],
+                                "additionalProperties": false
+                            },
+                            "componentName": {
+                                "type": "string",
+                                "description": "标识组件发起方应提供的组件的全名"
+                            },
+                            "componentVersion": {
+                                "type": "string",
+                                "description": "标识组件的版本，用于识别组件版本和指示组件版本的后续更改，应至少包含主版本号与次版本号"
+                            },
+                            "componentHashValue": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "algorithm": {
+                                            "type": "string",
+                                            "enum": [
+                                                "SM3",
+                                                "SHA1",
+                                                "BLAKE3",
+                                                "SHA3-384",
+                                                "SHA256",
+                                                "SHA384",
+                                                "BLAKE2b-512",
+                                                "BLAKE2b-256",
+                                                "SHA3-512",
+                                                "MD2",
+                                                "ADLER32",
+                                                "MD4",
+                                                "SHA3-256",
+                                                "BLAKE2b-384",
+                                                "SHA512",
+                                                "MD6",
+                                                "MD5",
+                                                "SHA224"
+                                            ]
+                                        },
+                                        "hashValue": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "algorithm",
+                                        "hashValue"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "componentId": {
+                                "type": "string",
+                                "description": "用于识别组件或作为相关数据库查询的唯一标识符"
+                            },
+                            "license": {
+                                "type": "array",
+                                "description": "标识该组件或文件所使用的开源许可证或商业许可证"
+                            },
+                            "componentTimestamp": {
+                                "type": "string",
+                                "description": "组件 SBOM 数据生成或更新的时间戳"
+                            },
+                            "componentSecurityInfo": {
+                                "type": "object",
+                                "properties": {
+                                    "vulRecord": {
+                                        "type": "object",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "vulId": {
+                                                    "type": "string"
+                                                },
+                                                "source": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "securityPatches": {
+                                        "type": "object",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "version": {
+                                                    "type": "string"
+                                                },
+                                                "applicableVersions": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "resolves": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "securityAdvice": {
+                                        "type": "object",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "docAddress": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "securityTest": {
+                                        "type": "object",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "toolType": {
+                                                    "description": "工具类型",
+                                                    "type": "string"
+                                                },
+                                                "toolName": {
+                                                    "description": "工具名称",
+                                                    "type": "string"
+                                                },
+                                                "resultAddress": {
+                                                    "description": "结果地址",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "componentDownloadLocation": {
+                                "type": "string",
+                                "description": "组件的来源及取得方式"
+                            },
+                            "componentCopyrightText": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "owner": {
+                                            "description": "版权所有者",
+                                            "type": "string"
+                                        },
+                                        "copyrightText": {
+                                            "description": "版权文本",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "componentPatchDetails": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "软件组件所应用的补丁进行详细说明",
+                                    "properties": {
+                                        "patchName": {
+                                            "description": "补丁名称",
+                                            "type": "string"
+                                        },
+                                        "patchVersion": {
+                                            "description": "补丁版本",
+                                            "type": "string"
+                                        },
+                                        "releaseDate": {
+                                            "description": "发布时间",
+                                            "type": "string"
+                                        },
+                                        "fixes": {
+                                            "description": "修复内容",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "componentComments": {
+                                "type": "string"
+                            },
+                            "fileList": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fileName": {
+                                            "description": "文件名称",
+                                            "type": "string"
+                                        },
+                                        "fileAuthor": {
+                                            "description": "文件作者",
+                                            "type": "dict",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "description": "文件作者或主要贡献者名称"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "description": "文件创作者或主要贡献者电子邮箱"
+                                                },
+                                                "organization": {
+                                                    "type": "string",
+                                                    "description": "文件创作者或主要贡献者所在组织"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "description": "文件创作者或主要贡献者的角色或贡献"
+                                                }
+                                            }
+                                        },
+                                        "fileHashValue": {
+                                            "type": "dict",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "algorithm": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "SM3",
+                                                            "SHA1",
+                                                            "BLAKE3",
+                                                            "SHA3-384",
+                                                            "SHA256",
+                                                            "SHA384",
+                                                            "BLAKE2b-512",
+                                                            "BLAKE2b-256",
+                                                            "SHA3-512",
+                                                            "MD2",
+                                                            "ADLER32",
+                                                            "MD4",
+                                                            "SHA3-256",
+                                                            "BLAKE2b-384",
+                                                            "SHA512",
+                                                            "MD6",
+                                                            "MD5",
+                                                            "SHA224"
+                                                        ]
+                                                    },
+                                                    "hashValue": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "algorithm",
+                                                    "checksumValue"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        },
+                                        "fileCopyrightText": {
+                                            "type": "dict",
+                                            "items": {
+                                                "properties": {
+                                                    "owner": {
+                                                        "description": "版权所有者",
+                                                        "type": "string"
+                                                    },
+                                                    "years": {
+                                                        "description": "版权年份",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "fileComments": {
+                                            "description": "文件的说明解释或描述",
+                                            "type": "string"
+                                        },
+                                        "snippetList": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "snippetId": {
+                                                        "type": "string"
+                                                    },
+                                                    "snippetRange": {
+                                                        "type": "dict",
+                                                        "properties": {
+                                                            "byte": {
+                                                                "type": "string"
+                                                            },
+                                                            "line": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "snippetCopyrightText": {
+                                                        "type": "dict"
+                                                    },
+                                                    "snippetComments": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "snippetId",
+                                                    "snippetRange"
+                                                ],
+                                                "additionalProperties": false
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "fileName",
+                                        "fileAuthor",
+                                        "fileCheckSumAlg",
+                                        "fileCheckSumValue"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "required": [
+                            "componentAuthor",
+                            "componentProvider",
+                            "componentName",
+                            "componentVersion",
+                            "componentChecksums",
+                            "componentId",
+                            "license",
+                            "componentTimestamp"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "dependencies": {
+                    "type": "object",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "ref": {
+                                "type": "string"
+                            },
+                            "dependsOn": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ref": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "ref",
+                            "dependsOn"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "otherRelationships": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "ref": {
+                            "description": "唯一标识符",
+                            "type": "string"
+                        },
+                        "relationships": {
+                            "type": "array",
+                            "target": {
+                                "description": "该组件直接依赖组件的唯一标识符",
+                                "type": "string"
+                            },
+                            "relationshipType": {
+                                "type": "enumeration",
+                                "description": "与组件的依赖关系类型",
+                                "enum": [
+                                    "runtime",
+                                    "build",
+                                    "test",
+                                    "dev",
+                                    "optional",
+                                    "contains",
+                                    "contained",
+                                    "generates",
+                                    "generated",
+                                    "ancestor""descendant",
+                                    "variant",
+                                    "patch",
+                                    "requires",
+                                    "prerequisites"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "ref",
+                            "relationships"
+                        ],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": [
+                "components",
+                "dependencies"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "documentBasicInfo",
+        "softwareCompositionInfo"
+    ],
+    "additionalProperties": false
+}
